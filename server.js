@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 
 const cors = require('cors');
 
-
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()

@@ -26,17 +26,22 @@ module.exports = {
   },
 
   production: {
-    client: "mysql",
+    client: 'mysql',
     connection: {
-      connectionString: process.env.CLEARDB_DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
+      port : 3306,
+      host : 'us-cdbr-east-05.cleardb.net',
+      user : 'b5b27d137d0d4d',
+      password : 'd0f07fba',
+      database : 'heroku_a1443916e3a4be2'
+    },
+    pool: {
+      min: 2,
+      max: 10
     },
     migrations: {
-      directory: __dirname + "/migrations",
-    },
-    seeds: {
-      directory: __dirname + "/seeds",
-    },
-  },  
+      tableName: 'knex_migrations',
+      directory: __dirname + "/migrations",      
+    }
+  },
 
 };

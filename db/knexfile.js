@@ -28,7 +28,7 @@ module.exports = {
   production: {
     client: "mysql",
     connection: {
-      connectionString: process.env.DATABASE_URL,
+      connectionString: process.env.CLEARDB_DATABASE_URL,
       ssl: { rejectUnauthorized: false },
     },
     migrations: {

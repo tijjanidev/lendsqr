@@ -1,18 +1,22 @@
 import Link from 'next/link'
 
 import { useRouter } from 'next/router'
+import React, {useEffect} from 'react'
 
 
 export default function Logout() {
     const router = useRouter()
 
-    const logUserOut = async (event) => {
+    const logUserOut = () => {
         sessionStorage.clear();
         router.push('/login');        
     }
 
-    logUserOut();
-
+    useEffect(() => {
+        let tkn = sessionStorage.getItem('tkn')
+        logUserOut();
+    }, [])
+    
     return (
         <div>
 

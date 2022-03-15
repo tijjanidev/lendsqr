@@ -17,10 +17,10 @@ const  Wallet = () => {
     const [user, setUser] = useState(null)
     const router = useRouter()
 
-    const fetchUser = () => {
+    const fetchUser = (token='') => {
 
         Axios
-            .get('/auth', { headers: {"Authorization" : `Bearer `+ sessionStorage.getItem('tkn')} })
+            .get('/auth', { headers: {"Authorization" : `Bearer `+ token} })
             .then(response => {
                 if(response.status == 200)
                     return response.data
@@ -51,8 +51,9 @@ const  Wallet = () => {
     }
 
     useEffect(() => {
-        fetchUser();
-    }, [fetchUser])
+        let tkn = sessionStorage.getItem('tkn')
+        fetchUser(tkn);
+    }, [])
 
 
     return (

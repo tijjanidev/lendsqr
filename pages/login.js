@@ -52,9 +52,11 @@ export default function Login() {
                     setMessage('Loggedin');
 
                     data = data.data
-                    window.sessionStorage.setItem('tkn', data.token);
-                    data = window.sessionStorage.getItem('tkn');
-                    // console.log(data)
+                    useEffect(() => {
+                        window.sessionStorage.setItem('tkn', data.token);
+                        data = window.sessionStorage.getItem('tkn');
+                    }, [])
+                    
                     router.push('/user');
                 }            
             })

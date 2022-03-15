@@ -29,7 +29,7 @@ app.prepare().then(() => {
   server.get('*', (req, res) => {
     return handle(req, res)
   })
-
+  
   server.listen(8080, (err) => {
     if (err) throw err
     console.log('Ready on port ::8080')

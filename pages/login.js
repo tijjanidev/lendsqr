@@ -7,13 +7,16 @@ import Label from '../components/label'
 import Button from '../components/button'
 import Logo from '../components/logo'
 import Errors from '../components/errors'
+import Message from '../components/message'
 
 import { useRouter } from 'next/router'
 import {useState} from 'react'
+import Axios from './../api/axios'
 
 export default function Login() {
 
     const [errors, setErrors] = useState([])
+    const [message, setMessage] = useState('')
     const router = useRouter()
 
     const loginUser = async (event) => {
@@ -27,48 +30,56 @@ export default function Login() {
             password: event.target.password.value,
         }
         
-    
-        fetch('https://8080-tijjvni-lendsqr-9lyeh4g677s.ws-eu34.gitpod.io/api/login',
-        {
-            body: JSON.stringify({
-                email: data.email,
-                password: data.password
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.status){
-                data = data.data
-                sessionStorage.setItem('tkn', data.token);
-                data = sessionStorage.getItem('tkn');
+        Axios
+            .post('/login',
+                {
+                    email: data.email,
+                    password: data.password
+                },{
 
-                // console.log(data);
-                // setErrors([])
-                router.push('/user');
-            }else {
-                data.errors = data.data.errors
-                errors = [];
-                data.errors.forEach(function(error) {
-                    errors.push(error.msg)
-                });
-                setErrors(errors);
+                    headers: {
+                        'Content-Type': 'application/json'
+                        },
+                }
+            )
+            .then(response => {
+                if(response.status == 200)
+                    return response.data
+            })
+            .then((data) => {
+                if(data.status){
+                    setErrors([]);
+                    setMessage('Loggedin');
 
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+                    data = data.data
+                    window.sessionStorage.setItem('tkn', data.token);
+                    data = window.sessionStorage.getItem('tkn');
+                    // console.log(data)
+                    router.push('/user');
+                }            
+            })
+            .catch(error => {
+
+                let errors = []
+                if(errors = error.response.data.data){
+                    errors = errors.errors
+
+                    let errorsArr = [];
+                    errors.forEach(function(error) {
+                        errorsArr.push(error.msg)
+                    });
+                    setErrors(errorsArr);
+                } else 
+                    console.log(errors.data);
+            })      
+            
     }
 
 
 
     return (
         <div className={styles.container}>
-            <Meta title='Login | {process.env.PROJECT}' />
+            <Meta title='Login | '/>
 
             <main className={styles.main}>
 
@@ -80,6 +91,7 @@ export default function Login() {
 
 
                         <h3 className="text-2xl font-bold text-center">Login to your account</h3>
+                        <Message className="mb-5" message={message} />
                         <Errors className="mb-5" errors={errors} />
                         <form onSubmit={loginUser} className="m-2">
 

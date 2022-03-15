@@ -7,13 +7,18 @@ import Label from '../components/label'
 import Button from '../components/button'
 import Logo from '../components/logo'
 import Errors from '../components/errors'
+import Message from '../components/message'
 
 import { useRouter } from 'next/router'
 import {useState} from 'react'
+import Axios from './../api/axios'
+
 
 export default function Signup() {
 
+
     const [errors, setErrors] = useState([])
+    const [message, setMessage] = useState('')
     const router = useRouter()
 
     const registerUser = async (event) => {
@@ -28,43 +33,46 @@ export default function Signup() {
             password: event.target.password.value,
         }
         
-    
-        fetch('https://8080-tijjvni-lendsqr-9lyeh4g677s.ws-eu34.gitpod.io/api/signup',
-        {
-            body: JSON.stringify({
-                first_name: data.first_name,
-                last_name: data.last_name,
-                email: data.email,
-                password: data.password
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.status){
-                setErrors([])
-                router.push('/login');
-            }else {
-                data.errors = data.data.errors
-                errors = [];
-                data.errors.forEach(function(error) {
-                    errors.push(error.msg)
-                });
-                setErrors(errors);
+        Axios
+            .post('/signup',data,{
 
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+                    headers: {
+                        'Content-Type': 'application/json'
+                        },
+                }
+            )
+            .then(response => {
+                if(response.status == 201)
+                    return response.data
+            })
+            .then((data) => {
+                if(data.status){
+                    setErrors([]);
+                    setMessage('Loggedin');
+                    router.push('/login');
+                } else    
+                    console.log(data)
+            })
+            .catch(error => {
+
+                let errors = []
+                if(errors = error.response.data.data){
+                    errors = errors.errors
+
+                    let errorsArr = [];
+                    errors.forEach(function(error) {
+                        errorsArr.push(error.msg)
+                    });
+                    setErrors(errorsArr);
+                } else 
+                    console.log(errors.data);
+            })     
+            
     }
     
     return (
         <div className={styles.container}>
-            <Meta title='Signup | {process.env.PROJECT}' />
+            <Meta title='Signup |' />
 
             <main className={styles.main}>
 
@@ -74,7 +82,7 @@ export default function Signup() {
                             <Logo/>
                         </div>
 
-                        <h3 className="text-2xl font-bold text-center">Login to your account</h3>
+                        <h3 className="text-2xl font-bold text-center">Signup your new account</h3>
                         <Errors className="mb-5" errors={errors} />
                         <form onSubmit={registerUser} className="m-2">
 

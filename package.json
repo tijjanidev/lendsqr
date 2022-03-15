@@ -2,6 +2,11 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.13.2",
+    "npm": "6.14.15"
+    
+  },
   "scripts": {
     "dev": "NODE_ENV=development node server.js",
     "build": "next build",
@@ -20,12 +25,10 @@
     "express-handlebars": "^6.0.3",
     "express-session": "^1.17.2",
     "express-validator": "^6.14.0",
-    "formik": "^2.2.9",
     "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.3",
     "mysql": "^2.18.1",
     "next": "12.1.0",
-    "next-connect": "^0.12.2",
     "nextjs-cors": "^2.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

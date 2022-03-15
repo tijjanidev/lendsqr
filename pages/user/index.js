@@ -52,7 +52,7 @@ const  Wallet = () => {
 
     useEffect(() => {
         fetchUser();
-    }, [])
+    }, [fetchUser])
 
 
     return (

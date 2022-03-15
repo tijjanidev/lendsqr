@@ -107,11 +107,11 @@ const  Wallet = () => {
                         </div>
 
                         <div className="flex mx-auto w-4/5 m-2 items-center border-gray-light bg-white border p-2 rounded">
-                            <div class="flex-grow">
-                                <h2 class="text-gray title-font font-semibold">Transaction</h2>
-                                <p class="text-secondary text-sm">22-10-12</p>
+                            <div className="flex-grow">
+                                <h2 className="font-semibold">Transaction</h2>
+                                <p className="text-sm">22-10-12</p>
                             </div>
-                            <h2 class="flex-1 text-red-500 font-bold text-right">N10,000</h2>
+                            <h2 className="flex-1 text-red-500 font-bold text-right">N10,000</h2>
                         </div>
 
                     </>
